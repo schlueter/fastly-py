@@ -76,6 +76,9 @@ class Service(Model):
     COLLECTION_PATTERN = '/service'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$id'
 
+    def __repr__(self):
+        return "<Service {name}>".format(name=self.attrs.get('name'))
+
     def purge_key(self, key):
         self._query('POST', '/purge/%s' % key)
 
