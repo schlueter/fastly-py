@@ -10,7 +10,7 @@ from fastly.models import Service, Version, Domain, Backend, Settings, Condition
 
 class API(object):
     def __init__(self, host=os.environ.get('FASTLY_HOST', 'api.fastly.com'), secure=os.environ.get('FASTLY_SECURE', True), port=None, root='',
-                 timeout=5.0, key=None):
+                 timeout=5.0, key=os.environ.get('FASTLY_API_KEY')):
         self.conn = Connection(host, secure, port, root, timeout)
 
         if key:
