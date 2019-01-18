@@ -180,6 +180,13 @@ class Backend(Model):
     def __repr__(self):
         return '<{whatsit}: {name}>'.format(whatsit=self.__class__.__name__, name=self.attrs.get('name'))
 
+class ACL(Model):
+    COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/acl'
+    INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'
+
+    def __repr__(self):
+        return '<{whatsit}: {name}>'.format(whatsit=self.__class__.__name__, name=self.attrs.get('name'))
+
 class Director(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/director'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'

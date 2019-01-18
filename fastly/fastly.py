@@ -5,7 +5,7 @@ import os
 from fastly.connection import Connection
 from fastly.auth import KeyAuthenticator, SessionAuthenticator
 from fastly.errors import AuthenticationError
-from fastly.models import Service, Version, Domain, Backend, Settings, Condition, Header, VCL, Snippet
+from fastly.models import Service, Version, Domain, Backend, Settings, Condition, Header, VCL, Snippet, ACL
 
 
 class API(object):
@@ -48,6 +48,12 @@ class API(object):
 
     def backend(self, service_id, version, name):
         return Backend.find(self.conn, service_id=service_id, version=version, name=name)
+
+    def acls(self, service_id, version):
+        return ACL.list(self.conn, service_id=service_id, version=version)
+
+    def acl(self, service_id, version, name):
+        return ACL.find(self.conn, service_id=service_id, version=version, name=name)
 
     def settings(self, service_id, version):
         return Settings.find(self.conn, service_id=service_id, version=version)
