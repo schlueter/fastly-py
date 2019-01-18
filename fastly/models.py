@@ -212,6 +212,13 @@ class Header(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/header'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'
 
+class Snippet(Model):
+    COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/snippet'
+    INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'
+
+    def __repr__(self):
+        return '<{whatsit}: {name}>'.format(whatsit=self.__class__.__name__, name=self.attrs.get('name'))
+
 class VCL(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/vcl'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'

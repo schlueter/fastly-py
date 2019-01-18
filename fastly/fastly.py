@@ -5,7 +5,7 @@ import os
 from fastly.connection import Connection
 from fastly.auth import KeyAuthenticator, SessionAuthenticator
 from fastly.errors import AuthenticationError
-from fastly.models import Service, Version, Domain, Backend, Settings, Condition, Header
+from fastly.models import Service, Version, Domain, Backend, Settings, Condition, Header, VCL, Snippet
 
 
 class API(object):
@@ -63,6 +63,12 @@ class API(object):
 
     def vcl(self, service_id, version, name):
         return VCL.find(self.conn, service_id=service_id, version=version, name=name)
+
+    def snippets(self, service_id, version):
+        return Snippet.list(self.conn, service_id=service_id, version=version)
+
+    def snippet(self, service_id, version, name):
+        return Snippet.find(self.conn, service_id=service_id, version=version, name=name)
 
     def purge_url(self, host, path, soft=False):
         headers = {'Host':host}
