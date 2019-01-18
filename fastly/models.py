@@ -77,7 +77,7 @@ class Service(Model):
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$id'
 
     def __repr__(self):
-        return "<Service {name}>".format(name=self.attrs.get('name'))
+        return "<{whatsit}: {name}>".format(whatsit=self.__class__.__name__, name=self.attrs.get('name'))
 
     def purge_key(self, key):
         self._query('POST', '/purge/%s' % key)
@@ -102,6 +102,14 @@ class Service(Model):
 class Version(Model):
     COLLECTION_PATTERN = Service.COLLECTION_PATTERN + '/$service_id/version'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$number'
+
+    def __repr__(self):
+        locked = self.attrs.get('locked')
+        active = self.attrs.get('active')
+        status = 'active' if active else 'locked' if locked else 'draft'
+        whatsit = self.__class__.__name__
+        number = self.attrs.get('number')
+        return '<{whatsit}: {number} ({status})>'.format(whatsit=whatsit, number=number, status=status)
 
     def check_backends(self):
         resp, data = self._query('GET', '/backend/check_all')
@@ -158,6 +166,9 @@ class Domain(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/domain'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'
 
+    def __repr__(self):
+        return '<{whatsit}: {name}>'.format(whatsit=self.__class__.__name__, name=self.attrs.get('name'))
+
     def check_cname(self):
         resp, data = self._query('GET', '/check')
         return (data[1], data[2])
@@ -165,6 +176,9 @@ class Domain(Model):
 class Backend(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/backend'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'
+
+    def __repr__(self):
+        return '<{whatsit}: {name}>'.format(whatsit=self.__class__.__name__, name=self.attrs.get('name'))
 
 class Director(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/director'
