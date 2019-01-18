@@ -3,7 +3,7 @@
 
 from string import Template
 from copy import copy
-from six.moves.urllib.parse import urlencode
+from six.moves.urllib.parse import urlencode, quote
 
 class Model(object):
     def __init__(self):
@@ -19,7 +19,7 @@ class Model(object):
         if method == 'POST' or method == 'PUT':
             headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
-        return conn.request(method, url, body, headers)
+        return conn.request(method, quote(url), body, headers)
 
     def _query(self, method, suffix='', body=None):
         return self.__class__.query(self.conn, self.INSTANCE_PATTERN, method, suffix, body, **self.attrs)
