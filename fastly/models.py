@@ -204,6 +204,12 @@ class Settings(Model):
     INSTANCE_PATTERN = Version.COLLECTION_PATTERN + '/$version/settings'
     COLLECTION_PATTERN = INSTANCE_PATTERN
 
+    def __repr__(self):
+        return '<{whatsit}: {service_id}:{version}>'.format(
+                whatsit=self.__class__.__name__,
+                version=self.attrs.get('version'),
+                service_id=self.attrs.get('service_id'))
+
 class Condition(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/condition'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'
