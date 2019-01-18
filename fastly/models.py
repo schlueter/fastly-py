@@ -187,6 +187,17 @@ class ACL(Model):
     def __repr__(self):
         return '<{whatsit}: {name}>'.format(whatsit=self.__class__.__name__, name=self.attrs.get('name'))
 
+class ACLEntry(Model):
+    COLLECTION_PATTERN = Service.COLLECTION_PATTERN + '/$service_id/acl/$acl_id/entries'
+    INSTANCE_PATTERN = Service.COLLECTION_PATTERN + '/$service_id/acl/$acl_id/entry/$entry_id'
+
+    def __repr__(self):
+        return '<{whatsit}: {negated}{ip}/{subnet}>'.format(
+                whatsit=self.__class__.__name__,
+                negated='!' if self.attrs.get('negated') == '1' else '',
+                ip=self.attrs.get('ip'),
+                subnet=self.attrs.get('subnet'))
+
 class Director(Model):
     COLLECTION_PATTERN = Version.COLLECTION_PATTERN + '/$version/director'
     INSTANCE_PATTERN = COLLECTION_PATTERN + '/$name'
